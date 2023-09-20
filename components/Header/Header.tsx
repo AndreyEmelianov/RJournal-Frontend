@@ -22,7 +22,7 @@ const Header: FC = () => {
           <input placeholder="Поиск" />
         </div>
 
-        <Button>
+        <Button variant="contained">
           <CreateIcon />
         </Button>
       </div>
