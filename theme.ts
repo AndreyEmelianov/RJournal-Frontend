@@ -3,6 +3,9 @@ import { createTheme } from '@material-ui/core';
 export const theme = createTheme({
   overrides: {
     MuiButton: {
+      root: {
+        borderRadius: '10px',
+      },
       contained: {
         backgroundColor: 'white',
         boxShadow:

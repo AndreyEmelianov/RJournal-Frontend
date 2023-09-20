@@ -1,5 +1,6 @@
 .root {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: #fff4e2 !important;
   padding: 0 20px;
@@ -11,8 +12,15 @@
   margin-left: 10px;
 }
 
+.penButton {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+}
+
 .searchBlock {
   position: relative;
+  margin-right: 15px;
 
   svg {
     position: absolute;
