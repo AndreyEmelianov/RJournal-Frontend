@@ -3,6 +3,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  background-color: rgb(242, 242, 242);
 }
 
 a {
@@ -11,8 +12,15 @@ a {
 }
 
 * {
+  -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
   outline: none;
+}
+
+.content {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 @media (prefers-color-scheme: dark) {
