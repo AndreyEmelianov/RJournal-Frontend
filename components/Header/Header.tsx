@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Paper, Button, IconButton, Avatar } from '@material-ui/core';
 
+import MenuIcon from '@material-ui/icons/Menu';
 import NotificationIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MessageIcon from '@material-ui/icons/SmsOutlined';
 import CreateIcon from '@material-ui/icons/Create';
@@ -9,9 +10,12 @@ import styles from './Header.module.scss';
 
 const Header: FC = () => {
   return (
-    <Paper>
-      <div>
-        <div>LOGO</div>
+    <Paper classes={{ root: styles.root }} elevation={0}>
+      <div className="d-flex align-center">
+        <IconButton>
+          <MenuIcon />
+        </IconButton>
+        <img height={35} className="mr-20" src="/static/img/logo.svg" alt="Logo" />
 
         <div className={styles.searchBlock}>
           <SearchIcon />
@@ -23,7 +27,7 @@ const Header: FC = () => {
         </Button>
       </div>
 
-      <div>
+      <div className="d-flex align-center">
         <IconButton>
           <MessageIcon />
         </IconButton>
