@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Header from '../components/Header/Header';
 import Post from '../components/Post/Post';
+import LeftMenu from '../components/LeftMenu/LeftMenu';
 
 export default function Home() {
   return (
@@ -15,8 +16,10 @@ export default function Home() {
           rel="stylesheet"></link>
       </Head>
       <Header />
-      <div>
-        <div className="leftSide"></div>
+      <div className="wrapper">
+        <div className="leftSide">
+          <LeftMenu />
+        </div>
         <div className="content">
           <Post />
         </div>

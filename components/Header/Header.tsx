@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Paper, Button, IconButton, Avatar } from '@material-ui/core';
 
+import ArrowBottom from '@material-ui/icons/ExpandMoreOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MessageIcon from '@material-ui/icons/SmsOutlined';
@@ -23,7 +24,7 @@ const Header: FC = () => {
         </div>
 
         <Button variant="contained" className={styles.penButton}>
-          <CreateIcon />
+          Новая запись
         </Button>
       </div>
 
@@ -35,10 +36,11 @@ const Header: FC = () => {
           <NotificationIcon />
         </IconButton>
         <Avatar
-          className="ml-15"
+          className={styles.avatar}
           alt="Remy Sharp"
           src="https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/"
         />
+        <ArrowBottom />
       </div>
     </Paper>
   );

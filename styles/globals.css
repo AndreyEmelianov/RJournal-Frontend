@@ -17,6 +17,10 @@ a {
   outline: none;
 }
 
+.wrapper {
+  padding-top: 75px;
+}
+
 .content {
   max-width: 640px;
   width: 100%;
