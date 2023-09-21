@@ -5,6 +5,7 @@ export const Editor: React.FC = () => {
   React.useEffect(() => {
     const editor = new EditorJS({
       holder: 'editor',
+      placeholder: 'Введите текст вашей статьи',
     });
   }, []);
 
