@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Divider, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import { Comment } from '../Comment';
+import { AddCommentForm } from '../AddCommentForm';
 
 type CommentObj = {
   text: string;
@@ -29,6 +30,7 @@ export const PostComments: React.FC<PostCommentsProps> = ({ items }) => {
           <Tab label="По порядку" />
         </Tabs>
         <Divider />
+        <AddCommentForm />
         <div className="mb-20" />
         {items.map((obj) => (
           <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt} />
