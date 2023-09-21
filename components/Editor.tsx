@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import EditorJS from '@editorjs/editorjs';
 
 export const Editor: React.FC = () => {
