@@ -11,8 +11,19 @@ import {
 } from '@material-ui/icons';
 
 import styles from './Header.module.scss';
+import { AuthDialog } from '../AuthDialog';
 
 export const Header: React.FC = () => {
+  const [authVisible, setAuthVisible] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setAuthVisible(true);
+  };
+
+  const handleClose = () => {
+    setAuthVisible(false);
+  };
+
   return (
     <Paper classes={{ root: styles.root }} elevation={0}>
       <div className="d-flex align-center">
@@ -37,7 +48,7 @@ export const Header: React.FC = () => {
         </Link>
       </div>
       <div className="d-flex align-center">
-        <IconButton>
+        <IconButton onClick={handleClickOpen}>
           <MessageIcon />
         </IconButton>
         <IconButton>
@@ -54,6 +65,7 @@ export const Header: React.FC = () => {
           </a>
         </Link>
       </div>
+      <AuthDialog onClose={handleClose} visible={authVisible} />
     </Paper>
   );
 };
