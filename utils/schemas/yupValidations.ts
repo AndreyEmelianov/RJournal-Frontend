@@ -6,3 +6,10 @@ export const LoginFormSchema = yup
     password: yup.string().min(6, 'Пароль должен быть не менее 6 символов').required('Пароль обязательный'),
   })
   .required();
+
+export const RegisterFormSchema = yup
+  .object({
+    fullname: yup.string().required('Имя и фамилия обязательны'),
+  })
+  .concat(LoginFormSchema)
+  .required();

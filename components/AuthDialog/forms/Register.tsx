@@ -1,4 +1,9 @@
-import { Button, TextField } from '@material-ui/core';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { Button } from '@material-ui/core';
+import { FormField } from '../../FormField';
+import { RegisterFormSchema } from '../../../utils/schemas/yupValidations';
 
 interface RegisterFormProps {
   onOpenRegister: () => void;
@@ -6,29 +11,36 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOpenLogin }) => {
+  const form = useForm({
+    mode: 'onChange',
+    resolver: yupResolver(RegisterFormSchema),
+  });
+
+  const onSubmit = (data) => console.log(data);
+
   return (
     <div>
-      <form>
-        <TextField className="mb-20" size="small" label="Имя и фамилия" variant="outlined" fullWidth required />
-        <TextField className="mb-20" size="small" label="Почта" variant="outlined" fullWidth required />
-        <TextField
-          className="mb-20"
-          size="small"
-          label="Пароль"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-        />
-        <div className="d-flex align-center justify-between">
-          <Button color="primary" variant="contained">
-            Зарегистрироваться
-          </Button>
-          <Button onClick={onOpenLogin} color="primary" variant="text">
-            Войти
-          </Button>
-        </div>
-      </form>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField name="fullname" label="Имя и фамилия" />
+          <FormField name="email" label="Почта" />
+          <FormField name="password" label="Пароль" />
+          <div className="d-flex align-center justify-between">
+            <Button
+              onClick={onOpenRegister}
+              disabled={!form.formState.isValid}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Зарегистрироваться
+            </Button>
+            <Button onClick={onOpenLogin} color="primary" variant="text">
+              Войти
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 };
