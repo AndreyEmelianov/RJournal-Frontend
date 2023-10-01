@@ -1,5 +1,6 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { setCookie } from 'nookies';
 
 import { Button } from '@material-ui/core';
 import { FormField } from '../../FormField';
@@ -21,7 +22,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
   const onSubmit = async (dto: CreateUserDto) => {
     try {
       const data = await UserApi.register(dto);
-      console.log(data);
+      // setCookie(null, 'rjAuthToken', data)
     } catch (err) {
       alert('Ошибка при регистрации');
       console.warn('Register error', err);
