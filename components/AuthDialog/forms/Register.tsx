@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@material-ui/core';
 import { FormField } from '../../FormField';
 import { RegisterFormSchema } from '../../../utils/schemas/yupValidations';
+import { UserApi } from '../../../utils/api';
+import { CreateUserDto } from '../../../utils/api/types';
 
 interface RegisterFormProps {
   onOpenRegister: () => void;
@@ -16,7 +18,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
     resolver: yupResolver(RegisterFormSchema),
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (dto: CreateUserDto) => {
+    try {
+      const data = await UserApi.register(dto);
+      console.log(data);
+    } catch (err) {
+      alert('Ошибка при регистрации');
+      console.warn('Register error', err);
+    }
+  };
 
   return (
     <div>
@@ -28,7 +38,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
           <div className="d-flex align-center justify-between">
             <Button
               onClick={onOpenRegister}
-              disabled={!form.formState.isValid}
+              disabled={!form.formState.isValid || form.formState.isSubmitting}
               type="submit"
               color="primary"
               variant="contained"
