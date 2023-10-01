@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { setCookie } from 'nookies';
@@ -7,6 +8,7 @@ import { FormField } from '../../FormField';
 import { RegisterFormSchema } from '../../../utils/schemas/yupValidations';
 import { UserApi } from '../../../utils/api';
 import { CreateUserDto } from '../../../utils/api/types';
+import Alert from '@material-ui/lab/Alert';
 
 interface RegisterFormProps {
   onOpenRegister: () => void;
@@ -14,6 +16,8 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOpenLogin }) => {
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
+
   const form = useForm({
     mode: 'onChange',
     resolver: yupResolver(RegisterFormSchema),
@@ -26,9 +30,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
         maxAge: 30 * 24 * 60 * 60,
         path: '/',
       });
+      setErrorMessage('');
     } catch (err) {
-      alert('Ошибка при регистрации');
       console.warn('Register error', err);
+      if (err.response) {
+        setErrorMessage(err.response.data.message);
+      }
     }
   };
 
@@ -39,6 +46,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
           <FormField name="fullName" label="Имя и фамилия" />
           <FormField name="email" label="Почта" />
           <FormField name="password" label="Пароль" />
+          {errorMessage && (
+            <Alert severity="error" className="mb-20">
+              {errorMessage}
+            </Alert>
+          )}
           <div className="d-flex align-center justify-between">
             <Button
               onClick={onOpenRegister}
