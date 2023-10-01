@@ -22,7 +22,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
   const onSubmit = async (dto: CreateUserDto) => {
     try {
       const data = await UserApi.register(dto);
-      // setCookie(null, 'rjAuthToken', data)
+      setCookie(null, 'rjAuthToken', data.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
     } catch (err) {
       alert('Ошибка при регистрации');
       console.warn('Register error', err);
