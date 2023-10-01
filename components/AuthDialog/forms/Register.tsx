@@ -22,7 +22,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
     <div>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField name="fullname" label="Имя и фамилия" />
+          <FormField name="fullName" label="Имя и фамилия" />
           <FormField name="email" label="Почта" />
           <FormField name="password" label="Пароль" />
           <div className="d-flex align-center justify-between">
