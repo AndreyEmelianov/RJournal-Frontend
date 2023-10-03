@@ -25,10 +25,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <Provider store={store}>
-          <Header />
-          <Component {...pageProps} />
-        </Provider>
+        {/* <Provider store={store}> */}
+        <Header />
+        <Component {...pageProps} />
+        {/* </Provider> */}
       </MuiThemeProvider>
     </>
   );
