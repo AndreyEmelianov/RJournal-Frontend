@@ -8,7 +8,7 @@ import { LoginFormSchema } from '../../../utils/schemas/yupValidations';
 import { FormField } from '../../FormField';
 import { UserApi } from '../../../utils/api';
 import { LoginDto } from '../../../utils/api/types';
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 import { useAppDispatch } from '../../../redux/hooks';
 import { setUserData } from '../../../redux/slices/user-slice';
 

@@ -1,15 +1,14 @@
 import Head from 'next/head';
+import { Provider } from 'react-redux';
+import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
+import { AppProps } from 'next/app';
 
 import { Header } from '../components/Header';
-
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
 import { theme } from '../theme';
+import { store, wrapper } from '../redux/store';
 
 import '../styles/globals.scss';
 import 'macro-css';
-import { Provider } from 'react-redux';
-import { store } from '../redux/store';
-import { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -22,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap"
           rel="stylesheet"
-        ></link>
+        />
       </Head>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
@@ -35,4 +34,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
