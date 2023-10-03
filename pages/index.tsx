@@ -3,6 +3,8 @@ import { Post } from '../components/Post';
 import { MainLayout } from '../layouts/MainLayout';
 import { parseCookies } from 'nookies';
 import { wrapper } from '../redux/store';
+import { UserApi } from '../utils/api';
+import { setUserData } from '../redux/slices/user-slice';
 
 export default function Home() {
   return (
@@ -18,6 +20,16 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-  const { rjAuthToken } = parseCookies(ctx);
-  return { props: {} };
+  try {
+    const { rjAuthToken } = parseCookies(ctx);
+
+    const userData = await UserApi.getMe(rjAuthToken);
+
+    store.dispatch(setUserData(userData));
+
+    return { props: {} };
+  } catch (err) {
+    console.log(err);
+    return { props: {} };
+  }
 });
