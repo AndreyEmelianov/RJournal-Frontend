@@ -1,10 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { CreateUserDto, LoginDto, ResponseUser } from './types';
 
-const instance = axios.create({
-  baseURL: 'http://localhost:8000',
-});
-
 export const UserApi = (instance: AxiosInstance) => ({
   async register(dto: CreateUserDto) {
     const { data } = await instance.post<CreateUserDto, { data: ResponseUser }>('/auth/register', dto);
@@ -18,11 +14,6 @@ export const UserApi = (instance: AxiosInstance) => ({
 
   async getMe() {
     const { data } = await instance.get<ResponseUser>('/users/me');
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
     return data;
   },
 });

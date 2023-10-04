@@ -38,12 +38,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Component }) => {
   try {
-    const { rjAuthToken } = parseCookies(ctx);
-
     const userData = await Api(ctx).user.getMe();
 
     store.dispatch(setUserData(userData));
   } catch (err) {
+    if (ctx.asPath === '/write') {
+      ctx.res.writeHead(302, {
+        Location: '/403',
+      });
+      ctx.res.end();
+    }
     console.log(err);
   }
 
