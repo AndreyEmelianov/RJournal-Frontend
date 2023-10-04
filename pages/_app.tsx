@@ -9,6 +9,9 @@ import { store, wrapper } from '../redux/store';
 
 import '../styles/globals.scss';
 import 'macro-css';
+import { parseCookies } from 'nookies';
+import { setUserData } from '../redux/slices/user-slice';
+import { UserApi } from '../utils/api';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -25,13 +28,27 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        {/* <Provider store={store}> */}
         <Header />
         <Component {...pageProps} />
-        {/* </Provider> */}
       </MuiThemeProvider>
     </>
   );
 }
+
+MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Component }) => {
+  try {
+    const { rjAuthToken } = parseCookies(ctx);
+
+    const userData = await UserApi.getMe(rjAuthToken);
+
+    store.dispatch(setUserData(userData));
+  } catch (err) {
+    console.log(err);
+  }
+
+  return {
+    pageProps: Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {},
+  };
+});
 
 export default wrapper.withRedux(MyApp);

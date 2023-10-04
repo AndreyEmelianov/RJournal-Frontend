@@ -10,15 +10,24 @@ const Editor = dynamic(() => import('../Editor').then((m) => m.Editor), {
 });
 
 interface WriteFormProps {
-  title?: string;
+  data?: any;
 }
 
-export const WriteForm: React.FC<WriteFormProps> = ({ title }) => {
+export const WriteForm: React.FC<WriteFormProps> = () => {
+  const [title, setTitle] = React.useState<string>('');
+  const [blocks, setBlocks] = React.useState([]);
+
   return (
     <div>
-      <Input classes={{ root: styles.titleFiled }} placeholder="Заголовок" defaultValue={title} />
+      <Input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        classes={{ root: styles.titleFiled }}
+        placeholder="Заголовок"
+        defaultValue={title}
+      />
       <div className={styles.editor}>
-        <Editor />
+        <Editor onChange={(arr) => setBlocks(arr)} />
       </div>
       <Button variant="contained" color="primary">
         Опубликовать

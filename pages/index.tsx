@@ -19,17 +19,17 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-  try {
-    const { rjAuthToken } = parseCookies(ctx);
+// export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+//   try {
+//     const { rjAuthToken } = parseCookies(ctx);
 
-    const userData = await UserApi.getMe(rjAuthToken);
+//     const userData = await UserApi.getMe(rjAuthToken);
 
-    store.dispatch(setUserData(userData));
+//     store.dispatch(setUserData(userData));
 
-    return { props: {} };
-  } catch (err) {
-    console.log(err);
-    return { props: {} };
-  }
-});
+//     return { props: {} };
+//   } catch (err) {
+//     console.log(err);
+//     return { props: {} };
+//   }
+// });
