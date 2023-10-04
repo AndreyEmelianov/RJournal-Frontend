@@ -6,11 +6,11 @@ import { setCookie } from 'nookies';
 import { Button } from '@material-ui/core';
 import { FormField } from '../../FormField';
 import { RegisterFormSchema } from '../../../utils/schemas/yupValidations';
-import { UserApi } from '../../../utils/api';
 import { CreateUserDto } from '../../../utils/api/types';
 import Alert from '@material-ui/lab/Alert';
 import { useAppDispatch } from '../../../redux/hooks';
 import { setUserData } from '../../../redux/slices/user-slice';
+import { Api } from '../../../utils/api';
 
 interface RegisterFormProps {
   onOpenRegister: () => void;
@@ -29,8 +29,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onOpenRegister, onOp
 
   const onSubmit = async (dto: CreateUserDto) => {
     try {
-      const data = await UserApi.register(dto);
-      setCookie(null, 'rjAuthToken', data.token, {
+      const data = await Api().user.register(dto);
+      setCookie(null, 'rjtoken', data.token, {
         maxAge: 30 * 24 * 60 * 60,
         path: '/',
       });

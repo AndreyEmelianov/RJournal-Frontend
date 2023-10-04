@@ -11,7 +11,8 @@ import '../styles/globals.scss';
 import 'macro-css';
 import { parseCookies } from 'nookies';
 import { setUserData } from '../redux/slices/user-slice';
-import { UserApi } from '../utils/api';
+import { UserApi } from '../utils/api/user-api';
+import { Api } from '../utils/api';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -39,7 +40,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Comp
   try {
     const { rjAuthToken } = parseCookies(ctx);
 
-    const userData = await UserApi.getMe(rjAuthToken);
+    const userData = await Api(ctx).user.getMe();
 
     store.dispatch(setUserData(userData));
   } catch (err) {

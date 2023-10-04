@@ -3,7 +3,7 @@ import { Post } from '../components/Post';
 import { MainLayout } from '../layouts/MainLayout';
 import { parseCookies } from 'nookies';
 import { wrapper } from '../redux/store';
-import { UserApi } from '../utils/api';
+import { UserApi } from '../utils/api/user-api';
 import { setUserData } from '../redux/slices/user-slice';
 
 export default function Home() {
