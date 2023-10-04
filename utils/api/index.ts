@@ -2,9 +2,11 @@ import axios from 'axios';
 import { GetServerSidePropsContext, NextPageContext } from 'next/types';
 import Cookies, { parseCookies } from 'nookies';
 import { UserApi } from './user-api';
+import { PostApi } from './post-api';
 
 export type ApiReturnType = {
   user: ReturnType<typeof UserApi>;
+  post: ReturnType<typeof PostApi>;
 };
 
 export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
@@ -20,5 +22,6 @@ export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiRetur
 
   return {
     user: UserApi(instance),
+    post: PostApi(instance),
   };
 };
