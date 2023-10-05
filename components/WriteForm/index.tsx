@@ -6,6 +6,7 @@ import { Button, Input } from '@material-ui/core';
 import styles from './WriteForm.module.scss';
 import { Api } from '../../utils/api';
 import { PostItem } from '../../utils/api/types';
+import { useRouter } from 'next/router';
 
 const Editor = dynamic(() => import('../Editor').then((m) => m.Editor), {
   ssr: false,
@@ -20,6 +21,8 @@ export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
   const [title, setTitle] = React.useState<string>(data?.title || '');
   const [blocks, setBlocks] = React.useState(data?.body || []);
 
+  const router = useRouter();
+
   const onAddPost = async () => {
     try {
       setIsLoading(true);
@@ -29,6 +32,7 @@ export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
       };
       if (!data) {
         const post = await Api().post.create(obj);
+        await router.push(`/write/${post.id}`);
       } else {
         await Api().post.update(data.id, obj);
       }
@@ -53,7 +57,7 @@ export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
         <Editor initialBlocks={data?.body} onChange={(arr) => setBlocks(arr)} />
       </div>
       <Button disabled={isLoading || !blocks.length || !title} onClick={onAddPost} variant="contained" color="primary">
-        Опубликовать
+        {data ? 'Сохранить' : 'Опубликовать'}
       </Button>
     </div>
   );
