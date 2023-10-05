@@ -12,13 +12,13 @@ const Editor = dynamic(() => import('../Editor').then((m) => m.Editor), {
 });
 
 interface WriteFormProps {
-  data: PostItem;
+  data?: PostItem;
 }
 
 export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [title, setTitle] = React.useState<string>(data.title);
-  const [blocks, setBlocks] = React.useState(data.body);
+  const [title, setTitle] = React.useState<string>(data?.title || '');
+  const [blocks, setBlocks] = React.useState(data?.body || []);
 
   const onAddPost = async () => {
     try {
@@ -46,9 +46,9 @@ export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
         defaultValue={title}
       />
       <div className={styles.editor}>
-        <Editor initialBlocks={data.body} onChange={(arr) => setBlocks(arr)} />
+        <Editor initialBlocks={data?.body} onChange={(arr) => setBlocks(arr)} />
       </div>
-      <Button disabled={isLoading} onClick={onAddPost} variant="contained" color="primary">
+      <Button disabled={isLoading || !blocks.length || !title} onClick={onAddPost} variant="contained" color="primary">
         Опубликовать
       </Button>
     </div>

@@ -16,4 +16,9 @@ export const PostApi = (instance: AxiosInstance) => ({
     const { data } = await instance.post<CreatePostDto, { data: PostItem }>('/posts', dto);
     return data;
   },
+
+  async update(id: number, dto: CreatePostDto) {
+    const { data } = await instance.post<CreatePostDto, { data: PostItem }>(`/posts/${id}`, dto);
+    return data;
+  },
 });
