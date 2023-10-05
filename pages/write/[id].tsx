@@ -17,6 +17,7 @@ const WritePage: NextPage<WritePageProps> = ({ post }) => {
     </MainLayout>
   );
 };
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const id = ctx.params.id;
