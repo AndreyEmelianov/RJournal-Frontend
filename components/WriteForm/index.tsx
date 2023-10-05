@@ -5,19 +5,20 @@ import { Button, Input } from '@material-ui/core';
 
 import styles from './WriteForm.module.scss';
 import { Api } from '../../utils/api';
+import { PostItem } from '../../utils/api/types';
 
 const Editor = dynamic(() => import('../Editor').then((m) => m.Editor), {
   ssr: false,
 });
 
 interface WriteFormProps {
-  data?: any;
+  data: PostItem;
 }
 
-export const WriteForm: React.FC<WriteFormProps> = () => {
+export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [title, setTitle] = React.useState<string>('');
-  const [blocks, setBlocks] = React.useState([]);
+  const [title, setTitle] = React.useState<string>(data.title);
+  const [blocks, setBlocks] = React.useState(data.body);
 
   const onAddPost = async () => {
     try {
@@ -45,7 +46,7 @@ export const WriteForm: React.FC<WriteFormProps> = () => {
         defaultValue={title}
       />
       <div className={styles.editor}>
-        <Editor onChange={(arr) => setBlocks(arr)} />
+        <Editor initialBlocks={data.body} onChange={(arr) => setBlocks(arr)} />
       </div>
       <Button disabled={isLoading} onClick={onAddPost} variant="contained" color="primary">
         Опубликовать
