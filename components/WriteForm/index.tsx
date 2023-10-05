@@ -23,11 +23,15 @@ export const WriteForm: React.FC<WriteFormProps> = ({ data }) => {
   const onAddPost = async () => {
     try {
       setIsLoading(true);
-      const post = await Api().post.create({
+      const obj = {
         title,
         body: blocks,
-      });
-      console.log(post);
+      };
+      if (!data) {
+        const post = await Api().post.create(obj);
+      } else {
+        await Api().post.update(data.id, obj);
+      }
     } catch (err) {
       console.warn('Create post', err);
       alert(err);
