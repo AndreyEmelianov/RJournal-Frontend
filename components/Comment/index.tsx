@@ -1,13 +1,12 @@
 import React from 'react';
-import { Typography, IconButton, MenuItem, Menu } from '@material-ui/core';
+import { Typography, IconButton, MenuItem, Menu, Avatar } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined';
 
 import styles from './Comment.module.scss';
 
 interface CommentPostProps {
   user: {
-    fullname: string;
-    avatarUrl: string;
+    fullName: string;
   };
   text: string;
   createdAt: string;
@@ -27,8 +26,8 @@ export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt }) =
   return (
     <div className={styles.comment}>
       <div className={styles.userInfo}>
-        <img src={user.avatarUrl} alt="Avatar" />
-        <b>{user.fullname}</b>
+        <Avatar style={{ marginRight: '12px' }}>{user.fullName[0]}</Avatar>
+        <b>{user.fullName}</b>
         <span>{createdAt}</span>
       </div>
       <Typography className={styles.text}>{text}</Typography>

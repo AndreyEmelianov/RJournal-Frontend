@@ -4,6 +4,8 @@ import data from '../../data';
 import { Divider, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import { Comment } from '../Comment';
 import { AddCommentForm } from '../AddCommentForm';
+import { Api } from '../../utils/api';
+import { CommentItem } from '../../utils/api/types';
 
 interface PostCommentsProps {
   postId: number;
@@ -11,8 +13,20 @@ interface PostCommentsProps {
 
 export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
   const [activeTab, setActiveTab] = React.useState(0);
+  const [comments, setComments] = React.useState<CommentItem[]>([]);
 
-  const comments = data.comments[activeTab === 0 ? 'popular' : 'new'];
+  // const comments = data.comments[activeTab === 0 ? 'popular' : 'new'];
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const arr = await Api().comment.getAll();
+        setComments(arr);
+      } catch (err) {
+        console.warn('fetchComments', err);
+      }
+    })();
+  }, []);
 
   return (
     <Paper elevation={0} className="mt-40 p-30">
