@@ -6,12 +6,14 @@ import styles from './AddCommentForm.module.scss';
 import { Api } from '../../utils/api';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUserData } from '../../redux/slices/user-slice';
+import { CommentItem } from '../../utils/api/types';
 
 interface AddCommentFormProps {
   postId: number;
+  onSuccessAddComment: (obj: CommentItem) => void;
 }
 
-export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId }) => {
+export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId, onSuccessAddComment }) => {
   const [clicked, setClicked] = React.useState<boolean>(false);
   const [text, setText] = React.useState('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -20,14 +22,19 @@ export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId }) => {
 
   const onAddComment = async () => {
     try {
+      setIsLoading(true);
       const comment = await Api().comment.create({
         postId,
         text,
       });
+      onSuccessAddComment(comment);
       setClicked(false);
       setText('');
     } catch (err) {
       console.warn('AddComment', err);
+      alert('Ошибка при отправке комментария');
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -15,8 +15,6 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
   const [activeTab, setActiveTab] = React.useState(0);
   const [comments, setComments] = React.useState<CommentItem[]>([]);
 
-  // const comments = data.comments[activeTab === 0 ? 'popular' : 'new'];
-
   React.useEffect(() => {
     (async () => {
       try {
@@ -27,6 +25,10 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
       }
     })();
   }, []);
+
+  const onAddComment = (obj: CommentItem) => {
+    setComments((prev) => [...prev, obj]);
+  };
 
   return (
     <Paper elevation={0} className="mt-40 p-30">
@@ -45,7 +47,7 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
           <Tab label="По порядку" />
         </Tabs>
         <Divider />
-        <AddCommentForm postId={postId} />
+        <AddCommentForm onSuccessAddComment={onAddComment} postId={postId} />
         <div className="mb-20" />
         {comments.map((obj) => (
           <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt} />
