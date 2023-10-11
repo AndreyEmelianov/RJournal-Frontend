@@ -6,6 +6,8 @@ import { Comment } from '../Comment';
 import { AddCommentForm } from '../AddCommentForm';
 import { Api } from '../../utils/api';
 import { CommentItem } from '../../utils/api/types';
+import { useAppSelector } from '../../redux/hooks';
+import { selectUserData } from '../../redux/slices/user-slice';
 
 interface PostCommentsProps {
   postId: number;
@@ -14,6 +16,8 @@ interface PostCommentsProps {
 export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
   const [activeTab, setActiveTab] = React.useState(0);
   const [comments, setComments] = React.useState<CommentItem[]>([]);
+
+  const userData = useAppSelector(selectUserData);
 
   React.useEffect(() => {
     (async () => {
@@ -47,10 +51,16 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
           <Tab label="По порядку" />
         </Tabs>
         <Divider />
-        <AddCommentForm onSuccessAddComment={onAddComment} postId={postId} />
+        {userData && <AddCommentForm onSuccessAddComment={onAddComment} postId={postId} />}
         <div className="mb-20" />
         {comments.map((obj) => (
-          <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt} />
+          <Comment
+            key={obj.id}
+            user={obj.user}
+            text={obj.text}
+            createdAt={obj.createdAt}
+            currentUserId={userData?.id}
+          />
         ))}
       </div>
     </Paper>

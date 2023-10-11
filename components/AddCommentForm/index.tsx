@@ -4,8 +4,6 @@ import { Button, Input } from '@material-ui/core';
 
 import styles from './AddCommentForm.module.scss';
 import { Api } from '../../utils/api';
-import { useAppSelector } from '../../redux/hooks';
-import { selectUserData } from '../../redux/slices/user-slice';
 import { CommentItem } from '../../utils/api/types';
 
 interface AddCommentFormProps {
@@ -17,8 +15,6 @@ export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId, onSucces
   const [clicked, setClicked] = React.useState<boolean>(false);
   const [text, setText] = React.useState('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  const isAuth = useAppSelector(selectUserData);
 
   const onAddComment = async () => {
     try {
@@ -37,10 +33,6 @@ export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId, onSucces
       setIsLoading(false);
     }
   };
-
-  if (!isAuth) {
-    return null;
-  }
 
   return (
     <div className={styles.form}>
