@@ -4,7 +4,11 @@ import { Button, Input } from '@material-ui/core';
 
 import styles from './AddCommentForm.module.scss';
 
-export const AddCommentForm: React.FC = () => {
+interface AddCommentFormProps {
+  postId: number;
+}
+
+export const AddCommentForm: React.FC<AddCommentFormProps> = ({ postId }) => {
   const [clicked, setClicked] = React.useState(false);
   const [text, setText] = React.useState('');
 
