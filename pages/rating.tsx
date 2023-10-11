@@ -2,8 +2,15 @@ import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Ta
 
 import { MainLayout } from '../layouts/MainLayout';
 import { FollowButton } from '../components/FollowButton';
+import { Api } from '../utils/api';
+import { NextPage } from 'next';
+import { ResponseUser } from '../utils/api/types';
 
-export default function Rating() {
+interface RatingPageProps {
+  users: ResponseUser[];
+}
+
+const Rating: NextPage<RatingPageProps> = ({ users }) => {
   return (
     <MainLayout>
       <Paper className="pl-20 pt-20 pr-20 mb-20" elevation={0}>
@@ -27,32 +34,35 @@ export default function Rating() {
             <TableRow>
               <TableCell>Имя пользователя</TableCell>
               <TableCell align="right">Рейтинг</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="right" />
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row">
-                <span className="mr-15">1</span>Вася Пупкин
-              </TableCell>
-              <TableCell align="right">540</TableCell>
-              <TableCell align="right">
-                <FollowButton />
-              </TableCell>
-            </TableRow>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell component="th" scope="row">
+                  <span className="mr-15">{user.id}</span>
+                  {user.fullName}
+                </TableCell>
+                <TableCell align="right">{user.commentsCount * 2}</TableCell>
+                <TableCell align="right">
+                  <FollowButton />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Paper>
     </MainLayout>
   );
-}
+};
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async () => {
   try {
-    const posts = await Api().post.getAll();
+    const users = await Api().user.getAllUsers();
     return {
       props: {
-        posts,
+        users,
       },
     };
   } catch (err) {
@@ -60,7 +70,9 @@ export const getServerSideProps = async (ctx) => {
   }
   return {
     props: {
-      posts: null,
+      users: null,
     },
   };
 };
+
+export default Rating;
