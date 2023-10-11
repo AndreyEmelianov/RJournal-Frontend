@@ -34,6 +34,10 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
     setComments((prev) => [...prev, obj]);
   };
 
+  const onRemoveComment = (id: number) => {
+    setComments((prev) => prev.filter((obj) => obj.id !== id));
+  };
+
   return (
     <Paper elevation={0} className="mt-40 p-30">
       <div className="container">
@@ -61,6 +65,7 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
             text={obj.text}
             createdAt={obj.createdAt}
             currentUserId={userData?.id}
+            onRemoveComment={onRemoveComment}
           />
         ))}
       </div>

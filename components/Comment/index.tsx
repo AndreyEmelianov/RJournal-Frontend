@@ -12,9 +12,10 @@ interface CommentPostProps {
   createdAt: string;
   currentUserId: number;
   id: number;
+  onRemoveComment: (id: number) => void;
 }
 
-export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, currentUserId, id }) => {
+export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, currentUserId, id, onRemoveComment }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -29,6 +30,7 @@ export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, cur
     if (window.confirm('Удалить комментарий?')) {
       try {
         await Api().comment.remove(id);
+        onRemoveComment(id);
       } catch (err) {
         console.warn('Error remove comment', err);
         alert('Не удалось удалить комментарий');
