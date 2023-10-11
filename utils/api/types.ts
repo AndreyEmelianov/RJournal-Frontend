@@ -47,4 +47,5 @@ export type CommentItem = {
   user: ResponseUser;
   createdAt: string;
   updatedAt: string;
+  post: PostItem;
 };
