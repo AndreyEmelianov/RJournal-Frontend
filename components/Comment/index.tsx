@@ -4,15 +4,17 @@ import MoreIcon from '@material-ui/icons/MoreHorizOutlined';
 
 import styles from './Comment.module.scss';
 import { ResponseUser } from '../../utils/api/types';
+import { Api } from '../../utils/api';
 
 interface CommentPostProps {
   user: ResponseUser;
   text: string;
   createdAt: string;
   currentUserId: number;
+  id: number;
 }
 
-export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, currentUserId }) => {
+export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, currentUserId, id }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -21,6 +23,19 @@ export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, cur
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickRemoveComment = async () => {
+    if (window.confirm('Удалить комментарий?')) {
+      try {
+        await Api().comment.remove(id);
+      } catch (err) {
+        console.warn('Error remove comment', err);
+        alert('Не удалось удалить комментарий');
+      } finally {
+        handleClose();
+      }
+    }
   };
 
   return (
@@ -39,7 +54,7 @@ export const Comment: React.FC<CommentPostProps> = ({ user, text, createdAt, cur
             <MoreIcon />
           </IconButton>
           <Menu anchorEl={anchorEl} elevation={2} open={Boolean(anchorEl)} onClose={handleClose} keepMounted>
-            <MenuItem onClick={handleClose}>Удалить</MenuItem>
+            <MenuItem onClick={handleClickRemoveComment}>Удалить</MenuItem>
             <MenuItem onClick={handleClose}>Редактировать</MenuItem>
           </Menu>
         </>

@@ -56,6 +56,7 @@ export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
         {comments.map((obj) => (
           <Comment
             key={obj.id}
+            id={obj.id}
             user={obj.user}
             text={obj.text}
             createdAt={obj.createdAt}
