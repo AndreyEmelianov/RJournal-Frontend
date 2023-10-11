@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Paper, Button, IconButton, Avatar } from '@material-ui/core';
+import { Paper, Button, IconButton, Avatar, List, ListItem } from '@material-ui/core';
 import {
   SearchOutlined as SearchIcon,
   CreateOutlined as PenIcon,
@@ -10,14 +10,20 @@ import {
   NotificationsNoneOutlined as NotificationIcon,
   AccountCircleOutlined as UserIcon,
 } from '@material-ui/icons';
+import ListItemButton from '@mui/material/ListItemButton';
 
 import styles from './Header.module.scss';
 import { AuthDialog } from '../AuthDialog';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUserData } from '../../redux/slices/user-slice';
+import { PostItem } from '../../utils/api/types';
+import { Api } from '../../utils/api';
 
 export const Header: React.FC = () => {
   const [authVisible, setAuthVisible] = React.useState<boolean>(false);
+  const [posts, setPosts] = React.useState<PostItem[]>([]);
+  const [searchValue, setSearchValue] = React.useState<string>('');
+
   const userData = useAppSelector(selectUserData);
 
   const openAuthDialog = () => {
@@ -34,6 +40,16 @@ export const Header: React.FC = () => {
     }
   }, [authVisible, userData]);
 
+  const handleChangeInput = async (e) => {
+    setSearchValue(e.target.value);
+    try {
+      const { items } = await Api().post.search({ title: e.target.value });
+      setPosts(items);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   return (
     <Paper classes={{ root: styles.root }} elevation={0}>
       <div className="d-flex align-center">
@@ -48,7 +64,22 @@ export const Header: React.FC = () => {
 
         <div className={styles.searchBlock}>
           <SearchIcon />
-          <input placeholder="Поиск" />
+          <input value={searchValue} onChange={handleChangeInput} placeholder="Поиск" />
+          {posts.length > 0 && (
+            <Paper className={styles.searchBlockPopup}>
+              <List>
+                <ListItem>
+                  {posts.map((post) => (
+                    <Link href={`/news/${post.id}`} key={post.id}>
+                      <a>
+                        <ListItemButton>{post.title}</ListItemButton>
+                      </a>
+                    </Link>
+                  ))}
+                </ListItem>
+              </List>
+            </Paper>
+          )}
         </div>
 
         <Link href="/write">

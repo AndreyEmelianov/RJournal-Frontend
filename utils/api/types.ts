@@ -41,6 +41,15 @@ export type PostItem = {
   updatedAt: string;
 };
 
+export type SearchPostDto = {
+  title?: string;
+  body?: string;
+  views?: 'DESC' | 'ASC';
+  limit?: number;
+  take?: number;
+  tag?: string;
+};
+
 export type CommentItem = {
   id: number;
   text: string;
