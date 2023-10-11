@@ -8,6 +8,7 @@ import { Api } from '../../utils/api';
 import { CommentItem } from '../../utils/api/types';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUserData } from '../../redux/slices/user-slice';
+import { useComments } from '../../hooks/useComments';
 
 interface PostCommentsProps {
   postId: number;
@@ -15,20 +16,9 @@ interface PostCommentsProps {
 
 export const PostComments: React.FC<PostCommentsProps> = ({ postId }) => {
   const [activeTab, setActiveTab] = React.useState(0);
-  const [comments, setComments] = React.useState<CommentItem[]>([]);
-
   const userData = useAppSelector(selectUserData);
 
-  React.useEffect(() => {
-    (async () => {
-      try {
-        const arr = await Api().comment.getAll();
-        setComments(arr);
-      } catch (err) {
-        console.warn('fetchComments', err);
-      }
-    })();
-  }, []);
+  const { comments, setComments } = useComments(postId);
 
   const onAddComment = (obj: CommentItem) => {
     setComments((prev) => [...prev, obj]);
