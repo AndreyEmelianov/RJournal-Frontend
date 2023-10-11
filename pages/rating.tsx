@@ -1,14 +1,4 @@
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  Tabs,
-  Tab,
-} from '@material-ui/core';
+import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Tabs, Tab } from '@material-ui/core';
 
 import { MainLayout } from '../layouts/MainLayout';
 import { FollowButton } from '../components/FollowButton';
@@ -21,8 +11,8 @@ export default function Rating() {
           Рейтинг сообществ и блогов
         </Typography>
         <Typography style={{ fontSize: 15 }}>
-          Десять лучших авторов и комментаторов, а также администраторы первых десяти сообществ из
-          рейтинга по итогам месяца бесплатно получают Plus-аккаунт на месяц.
+          Десять лучших авторов и комментаторов, а также администраторы первых десяти сообществ из рейтинга по итогам
+          месяца бесплатно получают Plus-аккаунт на месяц.
         </Typography>
         <Tabs className="mt-10" value={0} indicatorColor="primary" textColor="primary">
           <Tab label="Август" />
@@ -56,3 +46,21 @@ export default function Rating() {
     </MainLayout>
   );
 }
+
+export const getServerSideProps = async (ctx) => {
+  try {
+    const posts = await Api().post.getAll();
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
+  return {
+    props: {
+      posts: null,
+    },
+  };
+};
