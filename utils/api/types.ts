@@ -5,6 +5,11 @@ export type LoginDto = {
   password: string;
 };
 
+export type CreateCommentDto = {
+  postId: number;
+  text: string;
+};
+
 export type CreateUserDto = {
   fullName: string;
 } & LoginDto;
@@ -30,6 +35,15 @@ export type PostItem = {
   tags: null | string;
   id: number;
   views: number;
+  user: ResponseUser;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CommentItem = {
+  id: number;
+  text: string;
+  postId: PostItem;
   user: ResponseUser;
   createdAt: string;
   updatedAt: string;
